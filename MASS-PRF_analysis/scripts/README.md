@@ -31,9 +31,9 @@ go over a list of table file and plot MASS-PRF profile. in red, sites for which 
 
 
 
-# Guideline (see Methods of the manuscript)
+## Guideline (see Methods of the manuscript)
 
-## Ancestral reconstruction with codeml (PAML 4.9)
+### Ancestral reconstruction with codeml (PAML 4.9)
 codeml codeml.ctl  
 9310/9375 sequences gave ancestral sequences: either due to stop codon inferred in ancestral sequences or pb in the alignment
 
@@ -65,6 +65,7 @@ for file in *.txt; do   awk '/^Position/{flag=1} /^Abbreviation:/{flag=0} flag' 
 
 ## Create list of sequences that contains at least one cluster of adaptive substitutions 
 use python script list_adaptive_cluster.py
+
 
 
 
