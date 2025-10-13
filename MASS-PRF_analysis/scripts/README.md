@@ -46,15 +46,16 @@ macse -prog alignSequences \
 MACSE succesfully run on 9137 sequences
 
 
-## Filter gaps (ancestor sequence contains bits that are not present in the Dmel sequences) 
+## Filter gaps  
+Ancestor sequences contain bits that are not present in the Dmel sequences   
 Use python script filter_gap.py
 
 ## Create consensus sequences and scale down by 3 
 Use python script create_consensus.py
 
-## Split sequence > 900 by chunks of 900 (make sure about the header and save the full original sequence somewhere else) 
-Use python script split_in_900.py
-9137 proteins splitted into 10573
+## Split sequence > 900 by chunks of 900  
+Use python script split_in_900.py  
+9137 proteins splitted into 10573  
 
 ## Run MASS-PRF on all following https://github.com/Townsend-Lab-Yale/MASSPRF 
 ./massprf -ic 1 -sn 83 -p $transcript"_polymorphism_consensus.txt" -d $transcript"_divergence_consensus.txt" -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >$transcript"_MASS-PRF_BIC.txt"
@@ -64,6 +65,7 @@ for file in *.txt; do   awk '/^Position/{flag=1} /^Abbreviation:/{flag=0} flag' 
 
 ## Create list of sequences that contains at least one cluster of adaptive substitutions 
 use python script list_adaptive_cluster.py
+
 
 
 
