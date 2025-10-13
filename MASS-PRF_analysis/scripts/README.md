@@ -1,4 +1,13 @@
 ## The folder contains: 
+- codeml: ctl command file used to run codeml
+
+- treefile_v2.nwk: species tree used to run codeml
+
+- create_consensus.py: python script used to create consensus sequences from Zambian and Dmel-Dsim ancestor alignment
+
+- filter_gap.py: remove gaps from the Zambian and Dmel-Dsim ancestor alignment
+
+- Split_in_900.py: split consensus sequences >900 codons into fragments of 900 pieces
 
 - file_category_v4.py: give counts for categories: 
 1. Runs but lower gamma <4 for all sites 
@@ -19,15 +28,6 @@ Will give a list of file and clusters that contain exactly 2 or 3 substitutions 
 - make_plot_mass_prf_candidates_loop_pdf.R
 go over a list of table file and plot MASS-PRF profile. in red, sites for which lower bond gamma>=4
 
-- codeml: ctl command file used to run codeml
-
-- treefile_v2.nwk: species tree used to run codeml
-
-- create_consensus.py: python script used to create consensus sequences from Zambian and Dmel-Dsim ancestor alignment
-
-- filter_gap.py: remove gaps from the Zambian and Dmel-Dsim ancestor alignment
-
-- Split_in_900.py: split consensus sequences >900 codons into fragments of 900 pieces
 
 
 
@@ -35,7 +35,7 @@ go over a list of table file and plot MASS-PRF profile. in red, sites for which 
 
 ## Ancestral reconstruction with codeml (PAML 4.9)
 codeml codeml.ctl
-9310/9375 sequences gave ancestral sequences: either due to stop codon inferred in ancestral sequences or pb in the alignment
+** 9310/9375 sequences gave ancestral sequences: either due to stop codon inferred in ancestral sequences or pb in the alignment**
 
 ## Run multiple alignment on ZI + Ancestor sequences using macse (v. 2.07)
 macse -prog alignSequences \
@@ -64,6 +64,7 @@ for file in *.txt; do   awk '/^Position/{flag=1} /^Abbreviation:/{flag=0} flag' 
 
 ## Create list of sequences that contains at least one cluster of adaptive substitutions 
 use python script list_adaptive_cluster.py
+
 
 
 
