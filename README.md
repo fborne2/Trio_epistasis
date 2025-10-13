@@ -1,5 +1,7 @@
 Data from: Epistasis among clustered lineage-specific adaptive amino acid substitutions in the Drosophila Trio protein
 
+preprint: https://doi.org/10.1101/2025.09.29.679247
+
 Phenotype_raw_data_and_scripts: contains raw data for viability, locomotion and fertility phenotyping assays with scripts used to make figures and statistical analysis.
 
 alphafold_structures: Contains pdb AlphaFold structures generated for all intermediates of the lineage-specific adaptive cluster in Trio.  It also contains guidelines to run thermonet and acdcd-nn programs.
