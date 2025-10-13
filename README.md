@@ -1,4 +1,4 @@
-Data from: Epistasis among clustered lineage-specific adaptive amino acid substitutions in the Drosophila Trio protein
+**Data from: Epistasis among clustered lineage-specific adaptive amino acid substitutions in the Drosophila Trio protein**
 
 preprint: https://doi.org/10.1101/2025.09.29.679247
 
