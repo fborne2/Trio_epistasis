@@ -1,0 +1,4 @@
+- MASS-PRF_output.zip (part1 to 10): contains results of MASS-PRF that run succesfully
+- Adaptive_clusters_profile.pdf (part1 to 4): Plot of MASS-PRF profiles for proteins that contain at least one cluster
+- all_OG_clusters_experimentaaly_tractable.txt: list of proteins that contain at least one experimentally tractable cluster
+- MASS-PRF_candidate_stat.xlxs: gives number of candidates that run succesfully or did not run (out of memory or too little information)
