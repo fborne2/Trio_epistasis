@@ -42,7 +42,7 @@ macse -prog alignSequences \
      -seq "$SEQFILE" \
      -max_refine_iter 1 \
      -out_NT "${BASENAME}_NT.fasta" \
-     -out_AA "${BASENAME}_AA.fasta"
+     -out_AA "${BASENAME}_AA.fasta"  
 MACSE succesfully run on 9137 sequences
 
 
@@ -69,6 +69,7 @@ use python script list_adaptive_cluster.py
 use python script find_tractable_cluster_v2.py:
 #### Plot MASS-PRF profiles of candidates 
 use R script make_plot_mass_prf_candidates_loop_pdf.R
+
 
 
 
