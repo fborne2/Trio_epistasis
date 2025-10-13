@@ -1,0 +1,264 @@
+#11/19/2024
+##Test ACDC-NN https: //github.com/compbiomed-unito/acdc-nn
+#Follow guidelines from GitHub acdc-nn:
+git clone https://github.com/compbiomed-unito/acdc-nn
+
+
+Create a conda environment
+conda create -n ACDC2 python=3.7 biopython=1.78 numpy=1.19.5 pandas=1.1.5
+
+then pip install acdc-nn, this will also install tensorflow and silence tensorflow
+conda activate ACDC2
+pip install acdc-nn
+
+Successfully installed MarkupSafe-2.1.5 absl-py-2.1.0 acdc-nn-0.0.17 astunparse-1.6.3 cachetools-5.5.0 charset-normalizer-3.4.0 click-8.1.7 ddgun-0.0.2 flatbuffers-24.3.25 gast-0.4.0 google-auth-2.36.0 google-auth-oauthlib-0.4.6 google-pasta-0.2.0 grpcio-1.62.3 h5py-3.8.0 idna-3.10 importlib-metadata-6.7.0 keras-2.11.0 libclang-18.1.1 markdown-3.4.4 numpy-1.21.6 oauthlib-3.2.2 opt-einsum-3.3.0 packaging-24.0 protobuf-3.19.6 pyasn1-0.5.1 pyasn1-modules-0.3.0 requests-2.31.0 requests-oauthlib-2.0.0 rsa-4.9 silence-tensorflow-1.2.3 tensorboard-2.11.2 tensorboard-data-server-0.6.1 tensorboard-plugin-wit-1.8.1 tensorflow-2.11.0 tensorflow-estimator-2.11.0 tensorflow-io-gcs-filesystem-0.34.0 termcolor-2.3.0 typing-extensions-4.7.1 urllib3-2.0.7 werkzeug-2.2.3 wrapt-1.16.0 zipp-3.15.0
+
+#Try to run the tests example: it works
+acdc-nn struct Q104H tests/profiles/2ocjA.prof.gz tests/structures/2ocj.pdb.gz A
+1/1 [==============================] - 0s 297ms/step
+0.15008962
+
+
+
+#############################################################################################################
+#Create a profile for my DHPH domain (follow guidelines from: https://github.com/soedinglab/hh-suite)
+#Download database https://wwwuser.gwdguser.de/~compbiol/uniclust/2023_02/ 
+#Download UniRef30_2023_02_hhsuite.tar.gz with wget command
+wget https://wwwuser.gwdguser.de/~compbiol/uniclust/2023_02/UniRef30_2023_02_hhsuite.tar.gz
+tar -xvzf UniRef30_2023_02_hhsuite.tar.gz
+
+#install hhsuite in a different environment just to make sure that it doesn't screw everything
+conda create -n hhsuite
+conda install -c conda-forge -c bioconda hhsuite 
+
+#copy all version of DHPH domains 
+ARRKEFIMAELMQTERAYVNDLATCIKCFLEEFRAGKSVPSALIGQEDVIFGNIKEIHHFHQKIFLRELEKYETMPEDVGHCFVTWASKFDMYVHYCKNKPTSNNLLVQHGGSFFEELQRRLEVDHPLPAYLIKPVQRITKYQLLLKDLLSCCEESHGEIKEGLEVMLNVPKKANDAMHLSLLENCDVSVDKLGEVVLQDAFQAWDTKQIIRKGRERRVFLFELYLLFAKEVKESNVVKYQFKSKLMTTDMGITEHIEGDETKFAVWTGRSPMLSDCRIVLKATSLETKQIWVKKLREVMQETC
+#Also try DHPH protein sequence Dsim version so VNR
+ARRKEFIMAELMQTERAYVNDLATCIKCFLEEFRAGKSVPSALIGQEDVIFGNIKEIHHFHQKIFLRELEKYETMPEDVGHCFVTWASKFDMYVHYCKNKPTSNNLLVQHGGSFFEELQRRLEVDHPLPAYLIKPVQRITKYQLLLKDLLSCCEESHGEIKEGLEVMLNVPKKANDAMHLSLLENCDVSVDKLGEVVLQDAFQAWDTKQIIRKGRERRVFLFELYLLFAKEVKESNVVKYQFKSKLMTTDMGITEHIEGDETKFAVWTGRSPMLSDCRIVLKATSLETKQIWVKKLREVMQETC
+##DO all the intermediate states too
+
+#Create hhr alignment for each version
+
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_ASK.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_ASK.hhr
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_ANK.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_ANK.hhr
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_ANR.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_ANR.hhr
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_ASR.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_ASR.hhr
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_VNK.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_VNK.hhr
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_VNR.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_VNR.hhr
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_VSK.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_VSK.hhr
+hhblits -d UniRef30_2023_02 -i Dmel_DHPH_VSR.fasta -cpu 6 -n 2 -opsi Dmel_DHPH_VSR.hhr
+
+#convert into profiles
+ddgun mkprof Dmel_DHPH.hhr > Dmel_DHPH.prof
+
+ddgun mkprof Dmel_DHPH_ASK.hhr > Dmel_DHPH_ASK.prof
+ddgun mkprof Dmel_DHPH_ANK.hhr > Dmel_DHPH_ANK.prof
+ddgun mkprof Dmel_DHPH_ANR.hhr > Dmel_DHPH_ANR.prof
+ddgun mkprof Dmel_DHPH_ASR.hhr > Dmel_DHPH_ASR.prof
+ddgun mkprof Dmel_DHPH_VNK.hhr > Dmel_DHPH_VNK.prof
+ddgun mkprof Dmel_DHPH_VNR.hhr > Dmel_DHPH_VNR.prof
+ddgun mkprof Dmel_DHPH_VSK.hhr > Dmel_DHPH_VSK.prof
+ddgun mkprof Dmel_DHPH_VSR.hhr > Dmel_DHPH_VSR.prof
+
+####################################################################################################################
+
+
+##########################################################
+##Upload the pdb files of all the versions of DHPH that I created with alpha fold
+
+#ASK, test three single substitutions: 
+A35V #ASK -> VSK
+S38N #ASK -> ANK
+K55R #ASK -> ASR
+
+
+#Run acdc seq 
+acdc-nn seq A35V Dmel_DHPH_ASK.prof
+1/1 [==============================] - 0s 221ms/step
+0.25194877
+
+acdc-nn seq S38N Dmel_DHPH_ASK.prof
+1/1 [==============================] - 0s 299ms/step
+0.0
+
+acdc-nn seq K55R Dmel_DHPH_ASK.prof
+1/1 [==============================] - 0s 216ms/step
+0.108401746
+
+
+#Run acdc with structure
+acdc-nn struct A35V Dmel_DHPH_ASK.prof ASK.pdb A
+1/1 [==============================] - 0s 297ms/step
+0.20206797
+
+acdc-nn struct S38N Dmel_DHPH_ASK.prof ASK.pdb A
+1/1 [==============================] - 0s 304ms/step
+-0.031989526
+
+acdc-nn struct K55R Dmel_DHPH_ASK.prof ASK.pdb A
+1/1 [==============================] - 0s 360ms/step
+0.32748786
+
+#Run acdc with structure and mutated structure
+acdc-nn istruct A35V Dmel_DHPH_ASK.prof ASK.pdb A V35A Dmel_DHPH_VSK.prof VSK.pdb A 
+1/1 [==============================] - 0s 294ms/step
+0.20297335
+
+acdc-nn istruct S38N Dmel_DHPH_ASK.prof ASK.pdb A N38S Dmel_DHPH_ANK.prof ANK.pdb A 
+1/1 [==============================] - 0s 296ms/step
+-0.0069031604
+
+acdc-nn istruct K55R Dmel_DHPH_ASK.prof ASK.pdb A R55K Dmel_DHPH_ASR.prof ASR.pdb A 
+1/1 [==============================] - 0s 302ms/step
+0.36271808
+
+##Note: results with or without the mutated structures are very close
+##The results are symetric so only need to do it in one direction
+
+#Do everything with the mutated structure
+#VNR -> ANR
+-0.19657177
+#VNR -> VNK
+-0.3582657
+#VNR -> VSR
+0.0014779195
+
+#VNK -> VSK
+-0.006644774
+#VNK -> VNR
+0.3582657
+#VNK -> ANK
+-0.20034732
+
+#VSR -> VSK
+-0.40466505
+#VSR -> ASR
+-0.1992878
+
+#ANR -> ANK 
+-0.4001333
+#ANR -> ASR
+0.019379556
+
+###The effect of the single substitution does not depend on inital sequence
+
+##########################################################
+
+##########################################################
+#Create VNR profile as above
+#VNR, test three single substitutions:
+V35A
+N38S
+R55K
+
+
+##########################################################
+##Test Thermonet: https://github.com/gersteinlab/ThermoNet
+git clone https://github.com/gersteinlab/ThermoNet.git
+#download rosetta source + binaries for Linux in my bin directory (run in a job)
+wget https://downloads.rosettacommons.org/downloads/academic/3.14/rosetta_bin_linux_3.14_bundle.tar.bz2 
+wget https://downloads.rosettacommons.org/downloads/academic/3.14/rosetta_src_3.14_bundle.tar.bz2
+
+#extract (run a job because very long)
+tar -xvjf rosetta_bin_linux_3.14_bundle.tar.bz2
+tar -xvjf rosetta_src_3.14_bundle.tar.bz2
+#I dont think it is neccessary to download the source file
+
+#Create HTMD environment
+#The environment.yaml does not work to create the environment because of version incompatibilities
+#Need to change the python version to 3.10 in the environment.yaml (initially 3.7)
+conda env create --name thermonet --file environment.yaml
+#Then to use the software you need to register typing the command:
+htmd_register
+#Fill up name, institution, etc...
+
+# create conda environment for deep learning/neural networks
+conda create -y -n tensorflow112 python=3.6 anaconda
+source activate tensorflow112
+# install libraries
+pip install keras tensorflow-gpu==1.12
+Successfully installed absl-py-1.4.0 astor-0.8.1 gast-0.6.0 grpcio-1.48.2 keras-2.10.0 keras-applications-1.0.8 keras-preprocessing-1.1.2 markdown-3.3.7 protobuf-3.19.6 tensorboard-1.12.2 tensorflow-gpu-1.12.0 termcolor-1.1.0
+---> This environment is not working because we also need CUDA but the old version compatible with tenorflow 1.12 is hard to find
+#Re-do a conda activate with updated versions of everything: 
+conda create -n update_tensorflow tensorflow keras cuda
+
+######################################################################
+#Run examples (make a job for each command)
+in the examples folder 
+../../bin/rosetta.binary.linux.release-371/main/source/bin/relax.static.linuxgccrelease -in:file:s 2ocjA.pdb -relax:constrain_relax_to_start_coords -out:suffix _relaxed -out:no_nstruct_label -relax:ramp_constraints false
+
+mkdir 2ocjA
+mv 2ocjA_relaxed.pdb 2ocjA
+
+../ThermoNet/rosetta_relax.py --rosetta-bin ../../../bin/rosetta.binary.linux.release-371/main/source/bin/relax.static.linuxgccrelease -l p53_mutations.txt --base-dir ./
+#Note: this command will make a change in directory so you need to change the relative location of the rosetta binaries compared to the previous command. 
+
+#in the 2ocJA folder
+rename _relaxed_ _ *_relaxed_*.pdb
+
+#Run gends.py
+conda activate thermonet
+../ThermoNet/gends.py -i p53_mutations.txt -o p53_direct_stacked_16_1 -p ./ --boxsize 16 --voxelsize 1
+
+#Run predict.py
+conda activate update_tensorflow
+for i in `seq 1 10`; do ../ThermoNet/predict.py -x p53_direct_stacked_16_1.npy -m ../models/ThermoNet_ensemble_member_${i}.h5 -o p53_predictions_${i}.txt; done
+######################################################################
+
+################################################################"""""
+#Run on ASK.pdb 
+../../bin/rosetta.binary.linux.release-371/main/source/bin/relax.static.linuxgccrelease -in:file:s ASK.pdb -relax:constrain_relax_to_start_coords -out:suffix _relaxed -out:no_nstruct_label -relax:ramp_constraints false
+mkdir ASK
+mv ASK_relaxed.pdb ASK
+
+#prepare mutation list file 
+nano trio_cluster_mutations.txt
+ASK	35	A	V
+ASK	38	S	N
+ASK	55	K	R
+
+#Run relax_rosetta.py
+../ThermoNet/rosetta_relax.py --rosetta-bin ../../../bin/rosetta.binary.linux.release-371/main/source/bin/relax.static.linuxgccrelease -l trio_cluster_mutations.txt --base-dir ./
+##Error, in the rosetta crash file: "On line 3, the pose does not have residue with chain=K, PDBnum=35"
+#looks like it doesn't recognize chain number. 
+
+#Compare two solutions: 
+#modify the pdb file: remove 1st line saying "MODEL" and remove last line so the end looks like in the example: 
+
+tail ASK.pdb
+ATOM   2477  CG2 THR A 303      10.641  15.781 -12.695  1.00 76.88           C
+ATOM   2478  OG1 THR A 303      12.945  15.758 -13.383  1.00 76.88           O
+ATOM   2479  N   CYS A 304      13.164  16.812 -16.688  1.00 59.22           N
+ATOM   2480  CA  CYS A 304      13.977  17.688 -17.531  1.00 59.22           C
+ATOM   2481  C   CYS A 304      13.211  18.109 -18.781  1.00 59.22           C
+ATOM   2482  CB  CYS A 304      15.273  17.000 -17.922  1.00 59.22           C
+ATOM   2483  O   CYS A 304      13.305  19.250 -19.219  1.00 59.22           O
+ATOM   2484  SG  CYS A 304      16.438  16.781 -16.562  1.00 59.22           S
+TER
+
+#modify pdb as above AND change the name of the ASK, call it ASKA.pdb (the last A will be used as the chain name)
+#--> This second solution seems to work !!
+head p53_mutations.txt
+ASKA 35 A V
+ASKA 38 S N
+ASKA 55 K R
+
+mv p53_mutations.txt trio_cluster_mutations.txt
+
+#in the ASKA folder
+rename _relaxed_ _ *_relaxed_*.pdb
+
+#run gends
+conda activate thermonet
+../ThermoNet/gends.py -i trio_cluster_mutations.txt -o trio_direct_stacked_16_1 -p ./ --boxsize 16 --voxelsize 1
+
+#run predict
+conda activate update_tensorflow
+for i in `seq 1 10`; do ../ThermoNet/predict.py -x trio_direct_stacked_16_1.npy -m ../models/ThermoNet_ensemble_member_${i}.h5 -o trio_predictions_${i}.txt; done
+
+
+##Do same with VNR.pdb (renamed VNRA.pdb)
+
+#################################################################################################
+
+

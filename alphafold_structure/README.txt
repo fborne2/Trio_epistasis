@@ -1,0 +1,2 @@
+- ASK.pdb, ANR.pdb, ANK.pdb, ASR.pdb, VNK.pdb, VNR.pdb, VSK.pdb, VSR.pdb: AlphaFold structures of all versions of the trio cluster generated for the study 
+- calculate_DeltaG.txt: Guidelines to run Thermonet and ACDC-NN on pdb structures
