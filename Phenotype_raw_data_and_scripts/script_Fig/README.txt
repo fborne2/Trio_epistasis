@@ -1,0 +1,4 @@
+	- trio_climbing_assay.R: Plot and statistics for Fig 2B.
+	- trio_fertilityR: plot and statistics for Fig S4
+	- trio_viability.R: plot Fig 2A
+	- viability_Fisher_tests: statistics for Fig 2A
