@@ -28,3 +28,40 @@ go over a list of table file and plot MASS-PRF profile. in red, sites for which 
 - filter_gap.py: remove gaps from the Zambian and Dmel-Dsim ancestor alignment
 
 - Split_in_900.py: split consensus sequences >900 codons into fragments of 900 pieces
+
+
+
+**Guideline**
+
+# Ancestral reconstruction with codeml using Following tree species:
+codeml codeml.ctl
+# 9310/9375 sequences gave ancestral sequences: either due to stop codon inferred in ancestral sequences or pb in the alignment
+
+# Run multiple alignment on ZI + Ancestor sequences using macse 
+macse -prog alignSequences \
+     -seq "$SEQFILE" \
+     -max_refine_iter 1 \
+     -out_NT "${BASENAME}_NT.fasta" \
+     -out_AA "${BASENAME}_AA.fasta"
+# MACSE succesfully run on 9137 sequences
+
+
+# Filter gaps (ancestor sequence contains bits that are not present in the Dmel sequences) 
+Use python script filter_gap.py
+
+# Create consensus sequences and scale down by 3 
+Use python script create_consensus.py
+
+# Split sequence > 900 by chunks of 900 (make sure about the header and save the full original sequence somewhere else) 
+Use python script split_in_900.py
+# 9137 proteins splitted into 10573
+
+## Run MASS-PRF on all 
+./massprf -ic 1 -sn 83 -p $transcript"_polymorphism_consensus.txt" -d $transcript"_divergence_consensus.txt" -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >$transcript"_MASS-PRF_BIC.txt"
+
+# Only keep table part of the output
+for file in *.txt; do   awk '/^Position/{flag=1} /^Abbreviation:/{flag=0} flag' "$file" > "tables_only/table_$file"; done
+
+# Create list of sequences that contains at least one cluster of adaptive substitutions 
+use python script list_adaptive_cluster.py
+
