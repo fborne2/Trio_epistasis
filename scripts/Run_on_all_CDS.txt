@@ -1,0 +1,46 @@
+#Run MASS-PRF with Dmel-Dsim ancestral reconstruction 09/17/2025
+
+
+## Ancestral reconstruction with codeml using Following tree species:
+
+codeml codeml.ctl
+
+#9310/9375 sequences gave ancestral sequences: either due to stop codon inferred in ancestral sequences or pb in the alignment
+
+#Run multiple alignment on ZI + Ancestor sequences using macse 
+
+SEQFILE=$1
+BASENAME=$(basename "$SEQFILE" .fasta)
+mkdir -p macse_output
+
+macse -prog alignSequences \
+     -seq "$SEQFILE" \
+     -max_refine_iter 1 \
+     -out_NT "${BASENAME}_NT.fasta" \
+     -out_AA "${BASENAME}_AA.fasta"
+
+#MACSE succesfully run on 9137 sequences
+
+
+#Filter gaps (ancestor sequence contains bits that are not present in the Dmel sequences) with python script filter_gap.py
+
+
+#Create consensus sequences and scale down by 3 with python script create_consensus.py
+
+#Split sequence > 900 by chunks of 900 (make sure about the header and save the full original sequence somewhere else) using python script split_in_900.py
+
+#9137 proteins splitted into 10573
+
+#Run MASS-PRF on all 
+
+transcript=$1 #name of the transcript with number of the piece when split
+
+./massprf -ic 1 -sn 83 -p $transcript"_polymorphism_consensus.txt" -d $transcript"_divergence_consensus.txt" -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >$transcript"_MASS-PRF_BIC.txt"
+
+
+#Only keep table part of the output
+for file in *.txt; do   awk '/^Position/{flag=1} /^Abbreviation:/{flag=0} flag' "$file" > "tables_only/table_$file"; done
+
+#Create list of sequences that contains at least one cluster of adaptive substitutions using python script list_adaptive_cluster.pyy
+
+
