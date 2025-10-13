@@ -16,17 +16,14 @@
 4. Several lower gamma >= 4 and at least two < 20 codons apart
 and move category 4 into several_ge4_some_lt20 subfolder
 
-- file_category_unique_OG: 
-Adapt the script above to have one category per OG (in case OG is in multiple fragments). 
-
 - list_adaptive_cluster.py: 
-Create list of sequences that contains at least one cluster of adaptive substitutions (at least 2 substitutions less than 20 codons away)
+Create list of candidates that contain at least one cluster of adaptive substitutions (at least 2 substitutions less than 20 codons away)
 
 - find_tractable_cluster_v2.py:
 Will give a list of file and clusters that contain exactly 2 or 3 substitutions less than 20 codons away from each other
 
 - make_plot_mass_prf_candidates_loop_pdf.R
-go over a list of table file and plot MASS-PRF profile. in red, sites for which lower bond gamma>=4
+go over a list of candidates and plot MASS-PRF profile. in red, sites for which lower bond gamma>=4
 
 
 
@@ -69,6 +66,7 @@ use python script list_adaptive_cluster.py
 use python script find_tractable_cluster_v2.py:
 #### Plot MASS-PRF profiles of candidates 
 use R script make_plot_mass_prf_candidates_loop_pdf.R
+
 
 
 
