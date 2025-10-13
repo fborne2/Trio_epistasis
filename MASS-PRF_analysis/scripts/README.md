@@ -37,7 +37,7 @@ go over a list of table file and plot MASS-PRF profile. in red, sites for which 
 codeml codeml.ctl  
 9310/9375 sequences gave ancestral sequences: either due to stop codon inferred in ancestral sequences or pb in the alignment
 
-## Run multiple alignment on ZI + Ancestor sequences using macse (v. 2.07)
+### Run multiple alignment on ZI + Ancestor sequences using macse (v. 2.07)
 macse -prog alignSequences \
      -seq "$SEQFILE" \
      -max_refine_iter 1 \
@@ -46,25 +46,30 @@ macse -prog alignSequences \
 MACSE succesfully run on 9137 sequences
 
 
-## Filter gaps  
+### Filter gaps  
 Ancestor sequences contain bits that are not present in the Dmel sequences   
 Use python script filter_gap.py
 
-## Create consensus sequences and scale down by 3 
+### Create consensus sequences and scale down by 3 
 Use python script create_consensus.py
 
-## Split sequence > 900 by chunks of 900  
+### Split sequence > 900 by chunks of 900  
 Use python script split_in_900.py  
 9137 proteins splitted into 10573  
 
-## Run MASS-PRF on all following https://github.com/Townsend-Lab-Yale/MASSPRF 
+### Run MASS-PRF on all following https://github.com/Townsend-Lab-Yale/MASSPRF 
 ./massprf -ic 1 -sn 83 -p $transcript"_polymorphism_consensus.txt" -d $transcript"_divergence_consensus.txt" -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >$transcript"_MASS-PRF_BIC.txt"
 
-## Only keep table part of the output
+### Format output
+#### Keep the part ouf the output containing the output table
 for file in *.txt; do   awk '/^Position/{flag=1} /^Abbreviation:/{flag=0} flag' "$file" > "tables_only/table_$file"; done
-
-## Create list of sequences that contains at least one cluster of adaptive substitutions 
+#### Create list of candidates that contain at least one cluster of adaptive substitutions 
 use python script list_adaptive_cluster.py
+#### Create list of candidates that contain experimentally tracatble clusters
+use python script find_tractable_cluster_v2.py:
+#### Plot MASS-PRF profiles of candidates 
+use R script make_plot_mass_prf_candidates_loop_pdf.R
+
 
 
 
