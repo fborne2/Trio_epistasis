@@ -3,6 +3,6 @@
 - MASS-PRF_candidate_stat.xlxs: gives number of candidates that run succesfully or did not run (out of memory or too little information)
 - iso1_correspondence_table.tsv: Correspondence between the names of iso1 transcript and the OG ID
 - OG_to_gene_ID.tsv: correspondance table between the OG ID, the transcript and the gene name
-- MASS-PRF_output.zip (part1 to 10): contains results of MASS-PRF that run succesfully
-- Adaptive_clusters_profile.pdf (part1 to 4): Plot of MASS-PRF profiles for proteins that contain at least one cluster
+- MASS-PRF_output subfolder: contains results of MASS-PRF that run succesfully
+- Adaptive_cluster_profiles subfolder: Plot of MASS-PRF profiles for proteins that contain at least one cluster
 - genes_succesfully_run.txt: list of OG and corresponding gene for which MASS-PRF run successfully (at least on one gene fragment if the gene has been split)
